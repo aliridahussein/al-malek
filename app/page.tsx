@@ -37,10 +37,6 @@ export default function Home() {
         </h1>
 
         {/* Subtitle */}
-        <p className="text-lg font-semibold text-[#5C3D2E] animate-fade-in-up delay-2">
-          Frozen Ice Cream Since 1998
-        </p>
-
         {/* Decorative Divider */}
         <div className="flex items-center justify-center gap-2 animate-fade-in-up delay-2">
           <div className="h-1 w-8 rounded-full" style={{ background: 'linear-gradient(90deg, #FFB6D9, transparent)' }}></div>
