@@ -1,8 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Pastel Ice Cream Color Palette */
+  --background: #FFF5F7;
+  --foreground: #2D1B14;
+  --accent-pink: #FFB6D9;
+  --accent-mint: #B8F3E6;
+  --accent-peach: #FFD6A5;
+  --cream: #FFFBF8;
+  --dark-brown: #5C3D2E;
 }
 
 @theme inline {
@@ -14,13 +20,87 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #FFF5F7;
+    --foreground: #2D1B14;
   }
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(135deg, #FFF5F7 0%, #FFE4F0 50%, #FFF0DC 100%);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
 }
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 182, 217, 0.5), 0 4px 15px rgba(184, 243, 230, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 182, 217, 0.7), 0 4px 20px rgba(184, 243, 230, 0.5);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
