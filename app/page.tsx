@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <main className="min-h-screen flex items-center justify-center px-6 py-8 relative overflow-hidden">
+    <main className="min-h-screen flex items-center justify-center px-6 py-8 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #FFF5F7 0%, #FFE4F0 50%, #FFF0DC 100%)' }}>
       {/* Decorative Ice Cream Icons - Top Left */}
       <div className="absolute top-8 left-8 text-4xl animate-pulse" style={{ animationDelay: '0s' }}>
         🍦
@@ -49,21 +49,21 @@ export default function Home() {
         </div>
 
         {/* Arabic Quote - Premium styling */}
-        <div className="bg-white/40 backdrop-blur-md rounded-3xl px-6 py-5 shadow-lg border border-white/20 animate-fade-in-up delay-3">
-          <p className="text-xl font-bold text-[#2D1B14] leading-relaxed">
-            "خلّيها تذوب… وخلي همّك يذوب معها"
+        <div className="animate-fade-in-up delay-3 py-5 px-5 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(255, 182, 217, 0.15) 0%, rgba(184, 243, 230, 0.15) 100%)' }}>
+          <p className="text-xl font-bold text-[#2D1B14] leading-relaxed italic">
+            خلّيها تذوب… وخلي همّك يذوب معها
           </p>
         </div>
 
-        {/* WhatsApp Button - Premium gradient */}
+        {/* WhatsApp Button - Bold Green */}
         <a
           href="https://chat.whatsapp.com/FQJn1YhHFKy9jRzZWNOE3B?mode=gi_t"
           target="_blank"
           rel="noopener noreferrer"
           className="block w-full rounded-3xl py-4 px-6 text-white text-lg font-bold shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105 active:scale-95 animate-fade-in-up delay-4 cursor-pointer flex items-center justify-center gap-3"
           style={{
-            background: 'linear-gradient(135deg, #FFB6D9 0%, #B8F3E6 100%)',
-            boxShadow: '0 10px 25px rgba(255, 182, 217, 0.4)'
+            background: '#25D366',
+            boxShadow: '0 10px 30px rgba(37, 211, 102, 0.4)'
           }}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
