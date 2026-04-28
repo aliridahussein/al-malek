@@ -1,106 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 :root {
-  /* Pastel Ice Cream Color Palette */
-  --background: #FFF5F7;
-  --foreground: #2D1B14;
-  --accent-pink: #FFB6D9;
-  --accent-mint: #B8F3E6;
-  --accent-peach: #FFD6A5;
-  --cream: #FFFBF8;
-  --dark-brown: #5C3D2E;
+  --cream:       #FFFAF5;
+  --blush:       #FFF0F8;
+  --strawberry:  #FF4D8D;
+  --mango:       #FFB020;
+  --mint:        #00C48C;
+  --sky:         #38BDF8;
+  --plum:        #1A0A2E;
+  --soft-plum:   #3D1A6E;
+  --card-glass:  rgba(255, 255, 255, 0.72);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--cream);
+  --color-foreground: var(--plum);
 }
 
+/* Always light — lock against dark OS */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #FFF5F7;
-    --foreground: #2D1B14;
+    color-scheme: light;
   }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
 }
 
 body {
-  background: linear-gradient(135deg, #FFF5F7 0%, #FFE4F0 50%, #FFF0DC 100%);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-  min-height: 100vh;
+  background: linear-gradient(160deg, #FFFAF5 0%, #FFF0F8 45%, #F0FAFF 80%, #F5EEFF 100%);
+  color: var(--plum);
+  font-family: 'Inter', system-ui, Arial, sans-serif;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Animations */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
+/* Blob helper */
+.blob {
+  border-radius: 50%;
+  pointer-events: none;
+  position: absolute;
+  filter: blur(56px);
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Spinning ring */
+@keyframes spinSlow {
+  to { transform: rotate(360deg); }
 }
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes shimmer {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(255, 182, 217, 0.5), 0 4px 15px rgba(184, 243, 230, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 30px rgba(255, 182, 217, 0.7), 0 4px 20px rgba(184, 243, 230, 0.5);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.8s ease-out forwards;
-}
-
-.animate-shimmer {
-  animation: shimmer 2s ease-in-out infinite;
-}
-
-.animate-pulse {
-  animation: pulse 2s ease-in-out infinite;
-}
-
-.delay-1 { animation-delay: 0.1s; }
-.delay-2 { animation-delay: 0.2s; }
-.delay-3 { animation-delay: 0.3s; }
-.delay-4 { animation-delay: 0.4s; }
+.spin-slow { animation: spinSlow 10s linear infinite; }

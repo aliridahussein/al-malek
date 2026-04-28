@@ -1,21 +1,15 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-title: "Al Malek Ice Cream | ايس كريم الملك 🍦",
-  description:
-    "Frozen Ice Cream Since 1998 — خلّيها تذوب… وخلي همّك يذوب معها",
+  title: "Al Malek Ice Cream | ايس كريم الملك 🍦",
+  description: "Premium ice cream since 1998 — خلّيها تذوب… وخلي همّك يذوب معها",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({
@@ -24,10 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="ar" dir="ltr">
+      <body className="antialiased">
         {children}
       </body>
     </html>
