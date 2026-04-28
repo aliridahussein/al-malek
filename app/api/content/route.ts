@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 
+const FALLBACK_CONTENT_URL =
+  "https://script.google.com/macros/s/AKfycbwccMrp8Kf4Sg26z2fBHILKgaEu9xl6MvbyAWCBAGe7UQkAzC_rpmWQVye1oRFCcRG4/exec";
+
 type PageContent = {
   tagline: string;
   tagline_note: string;
@@ -33,11 +36,7 @@ const requiredKeys: Array<keyof PageContent> = [
 ];
 
 export async function GET() {
-  const sourceUrl = process.env.CONTENT_URL ?? process.env.NEXT_PUBLIC_CONTENT_URL;
-
-  if (!sourceUrl) {
-    return NextResponse.json({ error: "Missing content URL" }, { status: 500 });
-  }
+  const sourceUrl = process.env.CONTENT_URL ?? process.env.NEXT_PUBLIC_CONTENT_URL ?? FALLBACK_CONTENT_URL;
 
   try {
     const response = await fetch(sourceUrl, { cache: "no-store" });
