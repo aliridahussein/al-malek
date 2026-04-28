@@ -239,11 +239,6 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Footer */}
-        <motion.p custom={8} variants={fadeUp} initial="hidden" animate="show" className="text-xs text-center pt-2 pb-1" style={{ color: "#8134AF", opacity: 0.55, letterSpacing: "0.05em" }}>
-          Scan to discover more flavours &amp; offers
-        </motion.p>
-
       </div>
     </main>
   );
