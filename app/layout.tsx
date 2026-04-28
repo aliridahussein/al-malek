@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Al Malek Ice Cream | ايس كريم الملك 🍦",
-  description: "Premium ice cream since 1998 — خلّيها تذوب… وخلي همّك يذوب معها",
+  description: "Premium ice cream since 1991 — خلّيها تذوب… وخلي همّك يذوب معها",
 };
 
 export const viewport: Viewport = {

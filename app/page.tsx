@@ -176,7 +176,7 @@ export default function Home() {
             </div>
           </div>
           <div className="flex flex-col gap-0.5">
-            <p className="text-xs font-bold uppercase" style={{ color: "#FF4D8D", letterSpacing: "0.22em" }}>✦ Since 1998 ✦</p>
+            <p className="text-xs font-bold uppercase" style={{ color: "#FF4D8D", letterSpacing: "0.22em" }}>✦ Since 1991 ✦</p>
             <h1 className="font-black leading-tight" style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: "clamp(1.7rem, 8vw, 2.2rem)", color: "#1A0A2E", lineHeight: 1.1 }}>Al Malek</h1>
             <p className="font-extrabold text-sm" style={{ background: "linear-gradient(90deg, #FF4D8D 0%, #FFB020 50%, #00C48C 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", letterSpacing: "0.24em" }}>ICE CREAM</p>
           </div>
