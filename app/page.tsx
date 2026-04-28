@@ -85,10 +85,13 @@ export default function Home() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    const url = process.env.NEXT_PUBLIC_CONTENT_URL;
-    if (!url) { setError(true); return; }
-    fetch(url)
-      .then((r) => r.json())
+    fetch("/api/content", { cache: "no-store" })
+      .then((r) => {
+        if (!r.ok) {
+          throw new Error("Content request failed");
+        }
+        return r.json();
+      })
       .then((data: PageContent) => setContent(data))
       .catch(() => setError(true));
   }, []);
