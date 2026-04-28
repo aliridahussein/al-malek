@@ -175,10 +175,9 @@ export default function Home() {
               <Image src="/logo.png" alt="Al Malek Ice Cream" width={76} height={76} className="object-contain rounded-full" priority />
             </div>
           </div>
-          <div className="flex flex-col gap-0.5">
-            <p className="text-xs font-bold uppercase" style={{ color: "#FF4D8D", letterSpacing: "0.22em" }}>✦ Since 1991 ✦</p>
-            <h1 className="font-black leading-tight" style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: "clamp(1.7rem, 8vw, 2.2rem)", color: "#1A0A2E", lineHeight: 1.1 }}>Al Malek</h1>
-            <p className="font-extrabold text-sm" style={{ background: "linear-gradient(90deg, #FF4D8D 0%, #FFB020 50%, #00C48C 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", letterSpacing: "0.24em" }}>ICE CREAM</p>
+          <div className="flex flex-col items-center gap-1.5">
+            <h1 className="font-extrabold uppercase leading-none" style={{ color: "#111111", fontFamily: '"Inter", "Segoe UI", Arial, sans-serif', fontSize: "clamp(0.84rem, 3.55vw, 1.04rem)", letterSpacing: "0.22em", whiteSpace: "nowrap" }}>Al Malek ICE CREAM</h1>
+            <p className="text-[0.72rem] font-bold text-center" style={{ color: "#FF4D8D", fontFamily: '"Playfair Display", Georgia, serif', letterSpacing: "0.18em" }}>✦ Since 1991 ✦</p>
           </div>
         </motion.div>
 
