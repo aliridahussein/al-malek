@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import PrizeEntryForm from "./PrizeEntryForm";
-import { fetchPageContent, isCampaignActive } from "../lib/content";
+import { fetchPageContentSafe, isCampaignActive } from "../lib/content";
 
 export default async function PrizeEntryPage() {
   let content;
 
   try {
-    content = await fetchPageContent();
+    content = await fetchPageContentSafe();
   } catch {
     return (
       <main className="min-h-dvh flex items-center justify-center px-4 py-10">

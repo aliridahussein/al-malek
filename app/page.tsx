@@ -1,11 +1,11 @@
 ﻿import HomePageClient from "./HomePageClient";
-import { fetchPageContent } from "./lib/content";
+import { fetchPageContentSafe } from "./lib/content";
 
 export default async function Home() {
   let content;
 
   try {
-    content = await fetchPageContent();
+    content = await fetchPageContentSafe();
   } catch {
     return (
       <main className="min-h-dvh flex items-center justify-center" style={{ background: "linear-gradient(135deg, #fff8f9 0%, #fdf4ff 100%)" }}>

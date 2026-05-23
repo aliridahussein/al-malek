@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type PrizeEntryFormProps = {
   campaignId: string;
@@ -21,16 +22,31 @@ const initialState: FormState = {
   phoneNumber: "",
 };
 
+const SUBMIT_ERROR_MESSAGE = "تعذّر إرسال البيانات حالياً. حاول مرة أخرى.";
+
 export default function PrizeEntryForm({
   campaignId,
   title,
   description,
   successMessage,
 }: PrizeEntryFormProps) {
+  const router = useRouter();
   const [form, setForm] = useState<FormState>(initialState);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (!submitted) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      router.replace("/");
+    }, 1800);
+
+    return () => window.clearTimeout(timeout);
+  }, [router, submitted]);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -54,13 +70,13 @@ export default function PrizeEntryForm({
       const payload = (await response.json().catch(() => null)) as { message?: string } | null;
 
       if (!response.ok) {
-        throw new Error(payload?.message || "تعذّر إرسال البيانات حالياً. حاول مرة أخرى.");
+        throw new Error(payload?.message || SUBMIT_ERROR_MESSAGE);
       }
 
       setSubmitted(true);
       setForm(initialState);
     } catch (submissionError) {
-      setError(submissionError instanceof Error ? submissionError.message : "تعذّر إرسال البيانات حالياً. حاول مرة أخرى.");
+      setError(submissionError instanceof Error ? submissionError.message : SUBMIT_ERROR_MESSAGE);
     } finally {
       setIsSubmitting(false);
     }
@@ -73,13 +89,16 @@ export default function PrizeEntryForm({
         <h1 className="mt-3 text-2xl font-black leading-tight" dir="rtl" style={{ color: "#1A0A2E" }}>
           {successMessage || "تم تسجيل معلوماتك بنجاح"}
         </h1>
+        <p className="mt-4 text-sm font-semibold" dir="rtl" style={{ color: "#3D1A6E" }}>
+          سيتم إعادتك إلى الصفحة الرئيسية...
+        </p>
       </div>
     );
   }
 
   return (
     <div className="w-full rounded-[32px] bg-white/84 px-5 py-6 shadow-[0_22px_72px_rgba(129,52,175,0.14)] backdrop-blur-xl sm:px-6">
-      <p className="text-sm font-extrabold uppercase tracking-[0.28em] text-center" style={{ color: "#FF4D8D" }}>Prize Entry</p>
+      <p className="text-center text-sm font-extrabold uppercase tracking-[0.28em]" style={{ color: "#FF4D8D" }}>Prize Entry</p>
       <h1 className="mt-3 text-center text-2xl font-black leading-tight" dir="rtl" style={{ color: "#1A0A2E" }}>
         {title}
       </h1>

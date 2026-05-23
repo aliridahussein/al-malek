@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
-import { fetchPageContent } from "../../lib/content";
+import { fetchPageContentSafe } from "../../lib/content";
 
 export async function GET() {
   try {
-    const content = await fetchPageContent();
+    const content = await fetchPageContentSafe();
 
     return NextResponse.json(content, {
       headers: {
-        "Cache-Control": "no-store, max-age=0",
+        "Cache-Control": "public, max-age=30, s-maxage=60, stale-while-revalidate=300",
       },
     });
   } catch {

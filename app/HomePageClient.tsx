@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { isCampaignActive, type PageContent } from "./lib/content";
 
@@ -60,6 +62,14 @@ const InstagramIcon = () => (
 
 export default function HomePageClient({ content }: { content: PageContent }) {
   const campaignActive = isCampaignActive(content);
+  const [isPrizeNavigating, setIsPrizeNavigating] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (campaignActive) {
+      router.prefetch("/prize-entry");
+    }
+  }, [campaignActive, router]);
 
   const socials = [
     {
@@ -169,8 +179,11 @@ export default function HomePageClient({ content }: { content: PageContent }) {
                 {content.campaign_form_description}
               </p>
             ) : null}
-            <Link href="/prize-entry" className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-2xl px-5 py-3 text-sm font-bold text-white transition-transform duration-200 hover:-translate-y-0.5" style={{ background: "linear-gradient(135deg, #FF4D8D 0%, #8134AF 100%)", boxShadow: "0 12px 30px rgba(129,52,175,0.24)" }}>
-              {content.campaign_button_label}
+            <Link href="/prize-entry" onClick={() => setIsPrizeNavigating(true)} aria-busy={isPrizeNavigating} className="mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-bold text-white transition-transform duration-200 hover:-translate-y-0.5 aria-busy:pointer-events-none aria-busy:opacity-80" style={{ background: "linear-gradient(135deg, #FF4D8D 0%, #8134AF 100%)", boxShadow: "0 12px 30px rgba(129,52,175,0.24)" }}>
+              {isPrizeNavigating ? (
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/50 border-t-white" aria-hidden="true" />
+              ) : null}
+              <span>{content.campaign_button_label}</span>
             </Link>
           </motion.div>
         ) : null}

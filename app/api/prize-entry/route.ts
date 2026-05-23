@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { fetchPageContent, isCampaignActive } from "../../lib/content";
+import { fetchPageContentSafe, isCampaignActive } from "../../lib/content";
 
 type PrizeEntryPayload = {
   campaignId?: unknown;
@@ -7,6 +7,8 @@ type PrizeEntryPayload = {
   lastName?: unknown;
   phoneNumber?: unknown;
 };
+
+const SAVE_ERROR_MESSAGE = "تعذّر حفظ البيانات حالياً. حاول مرة أخرى.";
 
 function stringValue(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
@@ -45,14 +47,17 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const content = await fetchPageContent();
+    const content = await fetchPageContentSafe();
 
     if (!isCampaignActive(content)) {
       return NextResponse.json({ message: "انتهت فترة التسجيل الحالية." }, { status: 409 });
     }
 
     if (content.campaign_id && campaignId && content.campaign_id !== campaignId) {
-      return NextResponse.json({ message: "تم تحديث الحملة الحالية. أعد المحاولة من الصفحة الرئيسية." }, { status: 409 });
+      return NextResponse.json(
+        { message: "تم تحديث الحملة الحالية. أعد المحاولة من الصفحة الرئيسية." },
+        { status: 409 },
+      );
     }
 
     const submittedAt = new Date().toISOString();
@@ -76,11 +81,20 @@ export async function POST(request: NextRequest) {
     });
 
     if (!upstreamResponse.ok) {
-      return NextResponse.json({ message: "تعذّر حفظ البيانات حالياً. حاول مرة أخرى." }, { status: 502 });
+      const upstreamBody = await upstreamResponse.text().catch(() => "");
+      console.error("Prize entry upstream failed", {
+        status: upstreamResponse.status,
+        statusText: upstreamResponse.statusText,
+        body: upstreamBody.slice(0, 1000),
+      });
+
+      return NextResponse.json({ message: SAVE_ERROR_MESSAGE }, { status: 502 });
     }
 
     return NextResponse.json({ ok: true, submittedAt });
-  } catch {
-    return NextResponse.json({ message: "تعذّر حفظ البيانات حالياً. حاول مرة أخرى." }, { status: 502 });
+  } catch (error) {
+    console.error("Prize entry submission failed", error);
+
+    return NextResponse.json({ message: SAVE_ERROR_MESSAGE }, { status: 502 });
   }
 }
