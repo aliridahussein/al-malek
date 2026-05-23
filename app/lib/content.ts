@@ -150,11 +150,12 @@ export function isCampaignActive(content: PageContent) {
 async function fetchWithTimeout(url: string, init?: RequestInit) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), CONTENT_TIMEOUT_MS);
+  const useFreshFetch = init?.cache === "no-store";
 
   try {
     return await fetch(url, {
       ...init,
-      next: { revalidate: CONTENT_REVALIDATE_SECONDS, ...init?.next },
+      next: useFreshFetch ? init?.next : { revalidate: CONTENT_REVALIDATE_SECONDS, ...init?.next },
       signal: init?.signal ?? controller.signal,
     });
   } finally {
