@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import PhoneInput, { getCountryCallingCode, type Country, type Value } from "react-phone-number-input";
+import flags from "react-phone-number-input/flags";
+import "react-phone-number-input/style.css";
 
 type PrizeEntryFormProps = {
   campaignId: string;
@@ -13,16 +16,14 @@ type PrizeEntryFormProps = {
 type FormState = {
   firstName: string;
   lastName: string;
-  phoneNumber: string;
 };
+
+const SUBMIT_ERROR_MESSAGE = "تعذّر إرسال البيانات حالياً. حاول مرة أخرى.";
 
 const initialState: FormState = {
   firstName: "",
   lastName: "",
-  phoneNumber: "",
 };
-
-const SUBMIT_ERROR_MESSAGE = "تعذّر إرسال البيانات حالياً. حاول مرة أخرى.";
 
 export default function PrizeEntryForm({
   campaignId,
@@ -32,6 +33,8 @@ export default function PrizeEntryForm({
 }: PrizeEntryFormProps) {
   const router = useRouter();
   const [form, setForm] = useState<FormState>(initialState);
+  const [phoneNumber, setPhoneNumber] = useState<Value>();
+  const [selectedCountry, setSelectedCountry] = useState<Country>("LB");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -53,6 +56,12 @@ export default function PrizeEntryForm({
     setIsSubmitting(true);
     setError("");
 
+    if (!phoneNumber) {
+      setError("يرجى إدخال رقم هاتف صحيح.");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const response = await fetch("/api/prize-entry", {
         method: "POST",
@@ -63,7 +72,7 @@ export default function PrizeEntryForm({
           campaignId,
           firstName: form.firstName,
           lastName: form.lastName,
-          phoneNumber: form.phoneNumber,
+          phoneNumber,
         }),
       });
 
@@ -75,6 +84,7 @@ export default function PrizeEntryForm({
 
       setSubmitted(true);
       setForm(initialState);
+      setPhoneNumber(undefined);
     } catch (submissionError) {
       setError(submissionError instanceof Error ? submissionError.message : SUBMIT_ERROR_MESSAGE);
     } finally {
@@ -110,43 +120,60 @@ export default function PrizeEntryForm({
 
       <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
         <label className="block">
-          <span className="mb-2 block text-sm font-semibold" style={{ color: "#1A0A2E" }}>First Name</span>
+          <span className="mb-2 block text-right text-sm font-semibold" dir="rtl" style={{ color: "#1A0A2E" }}>
+            الاسم الأول
+          </span>
           <input
             type="text"
             autoComplete="given-name"
             value={form.firstName}
             onChange={(event) => setForm((current) => ({ ...current, firstName: event.target.value }))}
-            className="min-h-12 w-full rounded-2xl border border-[#f0d8ea] bg-white px-4 py-3 text-base outline-none transition focus:border-[#FF4D8D] focus:ring-2 focus:ring-[#ffd7e8]"
+            className="min-h-12 w-full rounded-2xl border border-[#f0d8ea] bg-white px-4 py-3 text-right text-base outline-none transition focus:border-[#FF4D8D] focus:ring-2 focus:ring-[#ffd7e8]"
+            dir="rtl"
             required
             maxLength={60}
           />
         </label>
 
         <label className="block">
-          <span className="mb-2 block text-sm font-semibold" style={{ color: "#1A0A2E" }}>Last Name</span>
+          <span className="mb-2 block text-right text-sm font-semibold" dir="rtl" style={{ color: "#1A0A2E" }}>
+            اسم العائلة
+          </span>
           <input
             type="text"
             autoComplete="family-name"
             value={form.lastName}
             onChange={(event) => setForm((current) => ({ ...current, lastName: event.target.value }))}
-            className="min-h-12 w-full rounded-2xl border border-[#f0d8ea] bg-white px-4 py-3 text-base outline-none transition focus:border-[#FF4D8D] focus:ring-2 focus:ring-[#ffd7e8]"
+            className="min-h-12 w-full rounded-2xl border border-[#f0d8ea] bg-white px-4 py-3 text-right text-base outline-none transition focus:border-[#FF4D8D] focus:ring-2 focus:ring-[#ffd7e8]"
+            dir="rtl"
             required
             maxLength={60}
           />
         </label>
 
         <label className="block">
-          <span className="mb-2 block text-sm font-semibold" style={{ color: "#1A0A2E" }}>Phone Number</span>
-          <input
-            type="tel"
-            autoComplete="tel"
-            inputMode="tel"
-            value={form.phoneNumber}
-            onChange={(event) => setForm((current) => ({ ...current, phoneNumber: event.target.value }))}
-            className="min-h-12 w-full rounded-2xl border border-[#f0d8ea] bg-white px-4 py-3 text-base outline-none transition focus:border-[#FF4D8D] focus:ring-2 focus:ring-[#ffd7e8]"
-            required
-            maxLength={25}
-          />
+          <span className="mb-2 block text-right text-sm font-semibold" dir="rtl" style={{ color: "#1A0A2E" }}>
+            رقم الهاتف
+          </span>
+          <div className="prize-phone-shell">
+            <PhoneInput
+              defaultCountry="LB"
+              flags={flags}
+              value={phoneNumber}
+              onChange={setPhoneNumber}
+              onCountryChange={(country) => {
+                if (country) {
+                  setSelectedCountry(country);
+                }
+              }}
+              className="prize-phone-input"
+              numberInputProps={{
+                required: true,
+                autoComplete: "tel",
+              }}
+            />
+            <span className="prize-phone-code">+{getCountryCallingCode(selectedCountry)}</span>
+          </div>
         </label>
 
         {error ? (
